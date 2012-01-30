@@ -21,7 +21,7 @@ if(($location != '') && ($type != ''))
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
 		echo "<accommodation>";
 		echo "<place>";
-		echo "<error>102</error>";
+		echo "<error code='102'>No accommodation found.</error>";
 		echo "</place>";
 		echo "</accommodation>";
 	}
@@ -56,7 +56,7 @@ else if(($type == '') && ($location != ''))
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
 		echo "<accommodation>";
 		echo "<place>";
-		echo "<error>102</error>";
+		echo "<error code='102'>No accommodation found.</error>";
 		echo "</place>";
 		echo "</accommodation>";
 	}
@@ -85,7 +85,7 @@ else
 	echo '<?xml version="1.0" encoding="UTF-8" ?>';
 	echo "<accommodation>";
 	echo "<place>";
-	echo "<error>100</error>";
+	echo "<error code='100'>Missing fields.</error>";
 	echo "</place>";
 	echo "</accommodation>";
 }

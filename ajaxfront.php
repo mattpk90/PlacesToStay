@@ -27,18 +27,19 @@
 		var nodeCount = accomArray[0].childNodes.length;
 		if(nodeCount == 1)
 		{
-			var errorNum = xmlHTTP.responseXML.getElementsByTagName("error")[0].firstChild.nodeValue;
+			var errorNum = xmlHTTP.responseXML.getElementsByTagName("error")[0].getAttribute('code');
+			var errorValue = xmlHTTP.responseXML.getElementsByTagName("error")[0].firstChild.nodeValue;
 			if(errorNum == 100)
 			{
 				html = html + "<tr>" +
-				"<td>Wrong fields filled in.</td>" +
+				"<td>" + errorValue +"</td>" +
 				"</tr>";
 				$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
 			}
 			if(errorNum == 102)
 			{
 				html = html + "<tr>" +
-				"<td>No accommodation found.</td>" +
+				"<td>" + errorValue +"</td>" +
 				"</tr>";
 				$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
 			}		

@@ -20,7 +20,7 @@ if(($accid != '') && ($review != ''))
 	{
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
 		echo "<accommodation>";
-		echo "<error>101</error>";
+		echo "<error code='101'>Accommodation does not exist in the database.</error>";
 		echo "</accommodation>";
 	}
 	else
@@ -28,7 +28,7 @@ if(($accid != '') && ($review != ''))
 		mysql_query("INSERT INTO acc_reviews (accid, review) VALUES ('$accid','$review')");
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
 		echo "<accommodation>";
-		echo "<success>200</success>";
+		echo "<success code='200'>Operation successful.</success>";
 		echo "</accommodation>";
 	}
 }
@@ -36,7 +36,7 @@ else
 {
 	echo '<?xml version="1.0" encoding="UTF-8" ?>';
 	echo "<accommodation>";
-	echo "<error>100</error>";
+	echo "<error code='100'>Missing fields.</error>";
 	echo "</accommodation>";
 }
 
