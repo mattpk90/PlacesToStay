@@ -27,11 +27,21 @@
 		var nodeCount = accomArray[0].childNodes.length;
 		if(nodeCount == 1)
 		{
-			html = html + "<tr>" +
-				"<td> Error.</td>" +
+			var errorNum = xmlHTTP.responseXML.getElementsByTagName("error")[0].firstChild.nodeValue;
+			if(errorNum == 100)
+			{
+				html = html + "<tr>" +
+				"<td>Wrong fields filled in.</td>" +
 				"</tr>";
-
-			$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
+				$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
+			}
+			if(errorNum == 102)
+			{
+				html = html + "<tr>" +
+				"<td>No accommodation found.</td>" +
+				"</tr>";
+				$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
+			}		
 		}
 		else
 		{
