@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8" />
-	<title>Search Accommodation</title>
+	<title>Accommodation</title>
 	<link rel="stylesheet" type="text/css" href="main.css" />
 	<script type='text/javascript' src='prototype.js'></script>
 
@@ -24,31 +24,41 @@
 		
 		var html = "";
 
-		for(var i=0; i < accomArray.length; i++)
+		var nodeCount = accomArray[0].childNodes.length;
+		if(nodeCount == 1)
 		{
-			var id = accomArray[i].getElementsByTagName("id")[0].firstChild.nodeValue;
-			var name = accomArray[i].getElementsByTagName("name")[0].firstChild.nodeValue;
-			var type = accomArray[i].getElementsByTagName("type")[0].firstChild.nodeValue;
-			var location = accomArray[i].getElementsByTagName("location")[0].firstChild.nodeValue;
-			var latitude = accomArray[i].getElementsByTagName("latitude")[0].firstChild.nodeValue;
-			var longitude = accomArray[i].getElementsByTagName("longitude")[0].firstChild.nodeValue;
-			var availability = accomArray[i].getElementsByTagName("availability")[0].firstChild.nodeValue;
-						
-
 			html = html + "<tr>" +
-			"<td>" + id + "&nbsp;</td>" +
-			"<td>" + name + "&nbsp;&nbsp;</td>" +
-			"<td>" + type + "&nbsp;</td>" +
-			"<td>" + location + "&nbsp;&nbsp;</td>" +
-			"<td>" + latitude + "&nbsp;</td>" +
-			"<td>" + longitude + "&nbsp;</td>" +
-			"<td>" + availability + "&nbsp;</td>" +
-			"</tr>";
+				"<td> Error.</td>" +
+				"</tr>";
+
+			$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
 		}
+		else
+		{
+			for(var i=0; i < accomArray.length; i++)
+			{
+				var id = accomArray[i].getElementsByTagName("id")[0].firstChild.nodeValue;
+				var name = accomArray[i].getElementsByTagName("name")[0].firstChild.nodeValue;
+				var type = accomArray[i].getElementsByTagName("type")[0].firstChild.nodeValue;
+				var location = accomArray[i].getElementsByTagName("location")[0].firstChild.nodeValue;
+				var latitude = accomArray[i].getElementsByTagName("latitude")[0].firstChild.nodeValue;
+				var longitude = accomArray[i].getElementsByTagName("longitude")[0].firstChild.nodeValue;
+				var availability = accomArray[i].getElementsByTagName("availability")[0].firstChild.nodeValue;
+							
+
+				html = html + "<tr>" +
+				"<td>" + id + "&nbsp;</td>" +
+				"<td>" + name + "&nbsp;&nbsp;</td>" +
+				"<td>" + type + "&nbsp;</td>" +
+				"<td>" + location + "&nbsp;&nbsp;</td>" +
+				"<td>" + latitude + "&nbsp;</td>" +
+				"<td>" + longitude + "&nbsp;</td>" +
+				"<td>" + availability + "&nbsp;</td>" +
+				"</tr>";
+			}
 	
-		$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>ID</td><td>Name</td><td>Type</td><td>Location</td><td>Latitude</td><td>Longitude</td><td>Availability</td></tr>"+html+"</table>";
-					
-		
+			$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>ID</td><td>Name</td><td>Type</td><td>Location</td><td>Latitude</td><td>Longitude</td><td>Availability</td></tr>"+html+"</table>";
+		}	
 	}
 	</script>
 

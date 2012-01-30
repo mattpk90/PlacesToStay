@@ -15,44 +15,70 @@ if(($location != '') && ($type != ''))
 {
 	$result = mysql_query("SELECT * FROM accommodation WHERE type='$type' AND location='$location'") or die(mysql_error());
 	
-	echo '<?xml version="1.0" encoding="UTF-8" ?>';
-	echo "<accommodation>";
-
-	while($row = mysql_fetch_array($result))
+	$count = mysql_num_rows($result);
+	if($count == 0)
 	{
-		echo "<place>";			
-		echo "<id>$row[ID]</id>";
-		echo "<name>$row[name]</name>";
-		echo "<type>$row[type]</type>";
-		echo "<location>$row[location]</location>";
-		echo "<latitude>$row[latitude]</latitude>";
-		echo "<longitude>$row[longitude]</longitude>";
-		echo "<availability>$row[availability]</availability>";
+		echo '<?xml version="1.0" encoding="UTF-8" ?>';
+		echo "<accommodation>";
+		echo "<place>";
+		echo "<error>102</error>";
 		echo "</place>";
+		echo "</accommodation>";
 	}
-	echo "</accommodation>";
+	else
+	{
+		echo '<?xml version="1.0" encoding="UTF-8" ?>';
+		echo "<accommodation>";
+
+		while($row = mysql_fetch_array($result))
+		{
+			echo "<place>";			
+			echo "<id>$row[ID]</id>";
+			echo "<name>$row[name]</name>";
+			echo "<type>$row[type]</type>";
+			echo "<location>$row[location]</location>";
+			echo "<latitude>$row[latitude]</latitude>";
+			echo "<longitude>$row[longitude]</longitude>";
+			echo "<availability>$row[availability]</availability>";
+			echo "</place>";
+		}
+		echo "</accommodation>";
+	}
 }
 else if(($type == '') && ($location != ''))
 {
 	$location = $_GET['location'];
 	$result = mysql_query("SELECT * FROM accommodation WHERE location='$location'") or die(mysql_error());
 
-	echo '<?xml version="1.0" encoding="UTF-8" ?>';	
-	echo "<accommodation>";
-
-	while($row = mysql_fetch_array($result))
-	{	
-		echo "<place>";	
-		echo "<id>$row[ID]</id>";
-		echo "<name>$row[name]</name>";
-		echo "<type>$row[type]</type>";
-		echo "<location>$row[location]</location>";
-		echo "<latitude>$row[latitude]</latitude>";
-		echo "<longitude>$row[longitude]</longitude>";
-		echo "<availability>$row[availability]</availability>";
+	$count = mysql_num_rows($result);
+	if($count == 0)
+	{
+		echo '<?xml version="1.0" encoding="UTF-8" ?>';
+		echo "<accommodation>";
+		echo "<place>";
+		echo "<error>102</error>";
 		echo "</place>";
+		echo "</accommodation>";
 	}
-	echo "</accommodation>";
+	else
+	{
+		echo '<?xml version="1.0" encoding="UTF-8" ?>';
+		echo "<accommodation>";
+
+		while($row = mysql_fetch_array($result))
+		{
+			echo "<place>";			
+			echo "<id>$row[ID]</id>";
+			echo "<name>$row[name]</name>";
+			echo "<type>$row[type]</type>";
+			echo "<location>$row[location]</location>";
+			echo "<latitude>$row[latitude]</latitude>";
+			echo "<longitude>$row[longitude]</longitude>";
+			echo "<availability>$row[availability]</availability>";
+			echo "</place>";
+		}
+		echo "</accommodation>";
+	}
 }
 else
 {

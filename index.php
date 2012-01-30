@@ -14,7 +14,7 @@
 		<div id="navigation">
 			<ul>
 				<li><a href="index.php">Home</a></li>
-				<li><a href="searchaccom.php">Search Accommodation</a></li>
+				<li><a href="ajaxfront.php">Accommodation</a></li>
 			</ul>
 		</div>
 
