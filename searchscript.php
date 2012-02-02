@@ -1,11 +1,11 @@
 <?php
 header("Content-type: text/xml");
 
-//$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
-//mysql_select_db('mkennedy') or die(mysql_error());
+$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
+mysql_select_db('mkennedy') or die(mysql_error());
 	
-$con = mysql_connect('localhost', 'root') or die(mysql_error());
-mysql_select_db('placestostay') or die(mysql_error());
+//$con = mysql_connect('localhost', 'root') or die(mysql_error());
+//mysql_select_db('placestostay') or die(mysql_error());
 
 
 $location = $_GET["location"];

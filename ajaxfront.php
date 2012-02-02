@@ -27,22 +27,13 @@
 		var nodeCount = accomArray[0].childNodes.length;
 		if(nodeCount == 1)
 		{
-			var errorNum = xmlHTTP.responseXML.getElementsByTagName("error")[0].getAttribute('code');
+			//var errorNum = xmlHTTP.responseXML.getElementsByTagName("error")[0].getAttribute('code');
 			var errorValue = xmlHTTP.responseXML.getElementsByTagName("error")[0].firstChild.nodeValue;
-			if(errorNum == 100)
-			{
-				html = html + "<tr>" +
-				"<td>" + errorValue +"</td>" +
-				"</tr>";
-				$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
-			}
-			if(errorNum == 102)
-			{
-				html = html + "<tr>" +
-				"<td>" + errorValue +"</td>" +
-				"</tr>";
-				$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
-			}		
+
+			html = html + "<tr>" +
+			"<td>" + errorValue +"</td>" +
+			"</tr>";
+			$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";		
 		}
 		else
 		{
@@ -89,13 +80,38 @@
 			<form>
 				<table>
 				<tr><td> Location: </td> <td><input type="text" id="location"/></td></tr>
-				<br /><br />
 				<tr><td> Type: </td> <td><input type="text" id="type"/></td</tr>
 				<tr><td> <input type="button" value="Search" onclick="ajaxrequest()"/> </td></tr>
 				</table>
 			</form>
 
 			<div id="searchaccomresponse"></div>
+
+			<br /><br />
+
+			<form>
+				<table>
+				<tr><td> Accommodation ID: </td> <td><input type="text" id="location"/></td></tr>
+				<tr><td> Review: </td> <td><input type="text" id="type"/></td</tr>
+				<tr><td> <input type="button" value="Add Review" onclick="ajaxrequest()"/> </td></tr>
+				</table>
+			</form>
+
+			<div id="reviewresponse"></div>
+
+			<br /><br />
+
+			<form>
+				<table>
+				<tr><td> Accommodation ID: </td> <td><input type="text" id="location"/></td></tr>
+				<tr><td> Start Date: </td> <td><input type="text" id="location"/></td></tr>
+				<tr><td> End Date: </td> <td><input type="text" id="location"/></td></tr>
+				<tr><td> Room: </td> <td><input type="text" id="location"/></td></tr>
+				<tr><td> <input type="button" value="Add Booking" onclick="ajaxrequest()"/> </td></tr>
+				</table>
+			</form>
+
+			<div id="bookingresponse"></div>
 		</div>
 
 
