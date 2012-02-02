@@ -5,6 +5,18 @@
 	<title>Accommodation</title>
 	<link rel="stylesheet" type="text/css" href="main.css" />
 	<script type='text/javascript' src='prototype.js'></script>
+	<script type='text/javascript' src='jquery.js'></script>
+	<script type='text/javascript' src='jquery-ui.js'></script>
+
+	<script type='text/javascript'>
+	var $j = jQuery.noConflict();
+	$j(document).ready(onLoad);
+
+	function onLoad() {		
+		$j("#drag").draggable();
+	}
+	</script>
+
 
 	<script type='text/javascript'>
 	function ajaxsearch()
@@ -190,6 +202,8 @@
 
 			<div id="bookingresponse"></div>
 		</div>
+
+		<div id="drag">test</div>
 
 
 	</div>
