@@ -15,10 +15,12 @@ html { background-color: #e9e9e9; color: #2c2c2c; font-family: "palatino linotyp
 #stage { margin: auto; position: relative; background-color: transparent; height: 600px; width: 1150px;
           background-repeat: no-repeat; }
 
-/* div for displaying ajax response in ajaxfront.php*/
-#searchaccomresponse { background-color: transparent; position: relative; margin: auto; }
-#reviewresponse { background-color: transparent; position: relative; margin: auto; }
-#bookingresponse { background-color: transparent; position: relative; margin: auto; }
+/* divs for displaying ajax response in ajaxfront.php*/
+#searchaccomresponse { background-color: transparent; position: relative; margin-left: 125px; float: left; }
+#reviewresponse { background-color: transparent; position: relative; margin-left: 50px; float: left; }
+#bookingresponse { background-color: transparent; position: relative; margin-left: 50px; float: left; }
+
+.ajaxtable { float: left; }
 
 
 a:link { text-decoration: none; color: #2c2c2c; font-weight: bold; }

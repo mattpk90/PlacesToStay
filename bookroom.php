@@ -1,11 +1,11 @@
 <?php
 header("Content-type: text/xml");
 
-$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
-mysql_select_db('mkennedy') or die(mysql_error());
+//$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
+//mysql_select_db('mkennedy') or die(mysql_error());
 	
-//$con = mysql_connect('localhost', 'root') or die(mysql_error());
-//mysql_select_db('placestostay') or die(mysql_error());
+$con = mysql_connect('localhost', 'root') or die(mysql_error());
+mysql_select_db('placestostay') or die(mysql_error());
 
 
 $accid = $_GET["accid"];
@@ -22,7 +22,9 @@ if(($accid != '') && ($startdate != '') && ($enddate != '') && ($room != ''))
 	{
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
 		echo "<accommodation>";
+		echo "<place>";
 		echo "<error code='101'>Accommodation does not exist in the database.</error>";
+		echo "</place>";
 		echo "</accommodation>";
 	}
 	else
@@ -31,7 +33,9 @@ if(($accid != '') && ($startdate != '') && ($enddate != '') && ($room != ''))
 						VALUES ('$accid','$startdate', '$enddate', '$room')");
 		echo '<?xml version="1.0" encoding="UTF-8" ?>';
 		echo "<accommodation>";
+		echo "<place>";
 		echo "<success code='200'>Operation successful.</success>";
+		echo "</place>";
 		echo "</accommodation>";
 	}
 }
@@ -39,7 +43,9 @@ else
 {
 	echo '<?xml version="1.0" encoding="UTF-8" ?>';
 	echo "<accommodation>";
+	echo "<place>";
 	echo "<error code='100'>Missing fields.</error>";
+	echo "</place>";
 	echo "</accommodation>";
 }
 
