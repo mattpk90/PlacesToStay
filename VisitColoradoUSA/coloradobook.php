@@ -11,7 +11,8 @@
 		$room = $_POST["room"];
 
 		$connection = curl_init();
-		curl_setopt($connection, CURLOPT_URL, "http://localhost/assignment/bookroom.php?accid=$accid&startdate=$start&enddate=$end&room=$room");
+		//curl_setopt($connection, CURLOPT_URL, "http://localhost/assignment/bookroom.php?accid=$accid&startdate=$start&enddate=$end&room=$room");
+		curl_setopt($connection, CURLOPT_URL, "http://edward/students/mkennedy/assignment/bookroom.php?accid=$accid&startdate=$start&enddate=$end&room=$room");
 		curl_setopt($connection,CURLOPT_RETURNTRANSFER,1);
 		curl_setopt($connection,CURLOPT_HEADER, 0);
 		$response = curl_exec($connection);

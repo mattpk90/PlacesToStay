@@ -14,53 +14,6 @@
 	$j(document).ready(onLoad);
 
 	function onLoad(){
-		/*
-		if(localStorage.getItem("review") === null)
-		{
-			//alert("Review is null.");
-			$j("#reviewresponse").offset({top: 0, left: 0});
-			var reviewPos = [];
-			reviewPos.push("0");
-			reviewPos.push("0");
-			localStorage.setItem("review", reviewPos.join(";"));
-			reviewPos.length = 0;
-		}
-		else
-		{
-			var getReviewPos = localStorage.getItem("review");
-			var coords = getReviewPos.split(";");
-			var setReviewX = coords[0];
-			var setReviewY = coords[1];
-			$j("#reviewresponse").css({"margin-top": setReviewY, "margin-left": setReviewX});
-			//alert("Review is not null.");
-		}
-		*/
-
-		//$j("#searchaccomresponse").draggable();
-
-		//$j("#reviewresponse").draggable();
-
-		/* stop drag get position
-		stop: function(event, ui)
-			{
-				var reviewPos = [];
-				var pos = $j(this).position();
-				var xPos = Math.floor(pos.left);
-				var yPos = pos.top;
-				reviewPos.push(xPos);
-				reviewPos.push(yPos);
-
-				localStorage.setItem("review", reviewPos.join(";"));
-				reviewPos.length = 0;
-
-				//$j("#reviewresponse").data('Xvalue', xPos);
-				//$j("#reviewresponse").data('Yvalue', yPos);
-				$j("#abc").html("x: " + xPos + " Y: " + yPos);
-			}
-		*/
-
-		//$j("#bookingresponse").draggable();
-
 		$j("#startdate").datepicker({ dateFormat: 'yy/mm/dd' });
 		$j("#enddate").datepicker({ dateFormat: 'yy/mm/dd' });
 	}
@@ -81,64 +34,30 @@
 	}
 
 	function resultsCustomise(t){
+		var a, b, c;
 		if(t == "s"){
-			var bgCol = $j("#searchbg").val();
-			var textCol = $j("#searchtext").val();
-			if(bgCol == '' && textCol != '')
-			{
-				$j("#searchaccomresponse").css({color: textCol});
-			}
-			else if(textCol == '' && bgCol != '')
-			{
-				$j("#searchaccomresponse").css({backgroundColor: bgCol});
-			}
-			else if(bgCol != '' && textCol != '')
-			{
-				$j("#searchaccomresponse").css({backgroundColor: bgCol, color: textCol});
-			}
+			a = "#searchbg";
+			b = "#searchtext";
+			c = "#searchaccomresponse";
 		}
-		else if(t == "r")
-		{
-			var bgCol = $j("#reviewbg").val();
-			var textCol = $j("#reviewtext").val();
-			if(bgCol == '' && textCol != '')
-			{
-				$j("#reviewresponse").css({color: textCol});
-			}
-			else if(textCol == '' && bgCol != '')
-			{
-				$j("#reviewresponse").css({backgroundColor: bgCol});
-			}
-			else if(bgCol != '' && textCol != '')
-			{
-				$j("#reviewresponse").css({backgroundColor: bgCol, color: textCol});
-			}
+		else if(t == "r"){
+			a = "#reviewbg";
+			b = "#reviewtext";
+			c = "#reviewresponse";
 		}
-		else if(t == "b")
-		{
-			var bgCol = $j("#bookbg").val();
-			var textCol = $j("#booktext").val();
-			if(bgCol == '' && textCol != '')
-			{
-				$j("#bookingresponse").css({color: textCol});
-			}
-			else if(textCol == '' && bgCol != '')
-			{
-				$j("#bookingresponse").css({backgroundColor: bgCol});
-			}
-			else if(bgCol != '' && textCol != '')
-			{
-				$j("#bookingresponse").css({backgroundColor: bgCol, color: textCol});
-			}
+		else if(t == "b"){
+			a = "#bookbg";
+			b = "#booktext";
+			c = "#bookingresponse";
 		}
-		else{
-			return;
-		}
+
+		var bgCol = $j(a).val();
+		var textCol = $j(b).val();
+		if(bgCol == '' && textCol != ''){ $j(c).css({color: textCol}); }
+		else if(textCol == '' && bgCol != ''){ $j(c).css({backgroundColor: bgCol}); }
+		else if(bgCol != '' && textCol != ''){ $j(c).css({backgroundColor: bgCol, color: textCol}); }
 	}
-	</script>
 
-
-	<script type='text/javascript'>
 	function ajaxsearch()
 	{
 		var l = $("location").value;
@@ -149,130 +68,39 @@
 			onComplete: searchReceived });
 	}
 
-	function ajaxreview()
-	{
-		var r_id = $("accidreview").value;
-		var r = $("review").value;
-	
-		var review_request = new Ajax.Request('addreview.php',{method: 'get',
-			parameters: 'accid=' + r_id + '&review=' + r,
-			onComplete: reviewReceived });
-	}
-
-	function ajaxbook()
-	{
-		var b_id = $("accidbook").value;
-		var s_date = $("startdate").value;
-		var e_date = $("enddate").value;
-		var room = $("room").value;
-	
-		var book_request = new Ajax.Request('bookroom.php',{method: 'get',
-			parameters: 'accid=' + b_id + '&startdate=' + s_date + '&enddate=' + e_date + '&room=' + room,
-			onComplete: bookReceived });
-	}
-
-
-	//search
 	function searchReceived(xmlHTTP)
 	{
-		var accomArray = xmlHTTP.responseXML.getElementsByTagName("place");
-		
-		var html = "";
-
-		var nodeCount = accomArray[0].childNodes.length;
-		if(nodeCount == 1)
-		{
-			//var errorNum = xmlHTTP.responseXML.getElementsByTagName("error")[0].getAttribute('code');
-			var errorValue = xmlHTTP.responseXML.getElementsByTagName("error")[0].firstChild.nodeValue;
-
-			html = html + "<tr>" +
-			"<td>" + errorValue +"</td>" +
-			"</tr>";
-			$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";		
+		if(xmlHTTP.status == 400){
+			$j("#searchaccomresponse").html("Please enter a location.");
 		}
-		else
-		{
-			for(var i=0; i < accomArray.length; i++)
-			{
-				var id = accomArray[i].getElementsByTagName("id")[0].firstChild.nodeValue;
-				var name = accomArray[i].getElementsByTagName("name")[0].firstChild.nodeValue;
-				var type = accomArray[i].getElementsByTagName("type")[0].firstChild.nodeValue;
-				var location = accomArray[i].getElementsByTagName("location")[0].firstChild.nodeValue;
-				var latitude = accomArray[i].getElementsByTagName("latitude")[0].firstChild.nodeValue;
-				var longitude = accomArray[i].getElementsByTagName("longitude")[0].firstChild.nodeValue;
-				var availability = accomArray[i].getElementsByTagName("availability")[0].firstChild.nodeValue;
-							
+		else if(xmlHTTP.status == 404){
+			$j("#searchaccomresponse").html("No accommodation found in that location.");
+		}
+		else if(xmlHTTP.status == 401){
 
+			$j("#searchaccomresponse").html("Unauthorised access.");
+		}
+		else if(xmlHTTP.status == 200){
+			var accomArray = xmlHTTP.responseXML.getElementsByTagName("place");		
+			var html = "";
+
+			for(var i=0; i < accomArray.length; i++)
+			{						
 				html = html + "<tr>" +
-				"<td>" + id + "&nbsp;</td>" +
-				"<td>" + name + "&nbsp;&nbsp;</td>" +
-				"<td>" + type + "&nbsp;</td>" +
-				"<td>" + location + "&nbsp;&nbsp;</td>" +
-				"<td>" + latitude + "&nbsp;</td>" +
-				"<td>" + longitude + "&nbsp;</td>" +
-				"<td>" + availability + "&nbsp;</td>" +
+				"<td>" + accomArray[i].getElementsByTagName("id")[0].firstChild.nodeValue + "&nbsp;</td>" +
+				"<td>" + accomArray[i].getElementsByTagName("name")[0].firstChild.nodeValue + "&nbsp;&nbsp;</td>" +
+				"<td>" + accomArray[i].getElementsByTagName("type")[0].firstChild.nodeValue + "&nbsp;</td>" +
+				"<td>" + accomArray[i].getElementsByTagName("location")[0].firstChild.nodeValue + "&nbsp;&nbsp;</td>" +
+				"<td>" + accomArray[i].getElementsByTagName("latitude")[0].firstChild.nodeValue + "&nbsp;</td>" +
+				"<td>" + accomArray[i].getElementsByTagName("longitude")[0].firstChild.nodeValue + "&nbsp;</td>" +
+				"<td>" + accomArray[i].getElementsByTagName("availability")[0].firstChild.nodeValue + "&nbsp;</td>" +
 				"</tr>";
 			}
-	
-			$("searchaccomresponse").innerHTML = "<table><tr class='accomtitles'><td>ID</td><td>Name</td><td>Type</td><td>Location</td><td>Latitude</td><td>Longitude</td><td>Availability</td></tr>"+html+"</table>";
-		}	
-	}
-
-
-	//review
-	function reviewReceived(xmlHTTP)
-	{		
-		var html = "";
-
-		//var successCode = xmlHTTP.responseXML.getElementsByTagName("success")[0].getAttribute('code');
-		var checkResponse = xmlHTTP.responseXML.getElementsByTagName("place")[0].childNodes[0].nodeName;
-		
-		if(checkResponse == "error")
-		{
-			var errorValue = xmlHTTP.responseXML.getElementsByTagName("error")[0].firstChild.nodeValue;
-			html = html + "<tr>" +
-			"<td>" + errorValue +"</td>" +
-			"</tr>";
-			$("reviewresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
-		}
-		else
-		{
-			var successValue = xmlHTTP.responseXML.getElementsByTagName("success")[0].firstChild.nodeValue;
-			html = html + "<tr>" +
-			"<td>" + successValue +"</td>" +
-			"</tr>";
-			$("reviewresponse").innerHTML = "<table><tr class='accomtitles'><td>Success</td></tr>"+html+"</table>";
-		}			
-	}
-
-
-	//book
-	function bookReceived(xmlHTTP)
-	{
-		var html = "";
-
-		//var successCode = xmlHTTP.responseXML.getElementsByTagName("success")[0].getAttribute('code');
-		var checkResponse = xmlHTTP.responseXML.getElementsByTagName("place")[0].childNodes[0].nodeName;
-		
-		if(checkResponse == "error")
-		{
-			var errorValue = xmlHTTP.responseXML.getElementsByTagName("error")[0].firstChild.nodeValue;
-			html = html + "<tr>" +
-			"<td>" + errorValue +"</td>" +
-			"</tr>";
-			$("bookingresponse").innerHTML = "<table><tr class='accomtitles'><td>Error</td></tr>"+html+"</table>";
-		}
-		else
-		{
-			var successValue = xmlHTTP.responseXML.getElementsByTagName("success")[0].firstChild.nodeValue;
-			html = html + "<tr>" +
-			"<td>" + successValue +"</td>" +
-			"</tr>";
-			$("bookingresponse").innerHTML = "<table><tr class='accomtitles'><td>Success</td></tr>"+html+"</table>";
+			$j("#searchaccomresponse").html("<table><tr class='accomtitles'><td>ID</td><td>Name</td><td>Type</td>"+
+				"<td>Location</td><td>Latitude</td><td>Longitude</td><td>Availability</td></tr>"+html+"</table>");	
 		}
 	}
 	</script>
-
 </head>
 
 <body>
@@ -289,27 +117,27 @@
 			<div id="left">
 				<form>
 					<table>
-					<tr><td> Location: </td> <td><input type="text" id="location"/></td></tr>
-					<tr><td> Type: </td> <td><input type="text" id="type"/></td</tr>
+					<tr><td> Location: </td> <td><input type="text" id="location" name="location"/></td></tr>
+					<tr><td> Type: </td> <td><input type="text" id="type" name="type"/></td</tr>
 					<tr><td> <input type="button" value="Search" onclick="ajaxsearch()"/> </td></tr>
 					</table>
 				</form><br /><br />
 
-				<form class="ajaxtable">
+				<form class="ajaxtable" action="rest_client.php" method="post">
 					<table>
 					<tr><td> Accommodation ID: </td> <td><input type="text" id="accidreview"/></td></tr>
 					<tr><td> Review: </td> <td><input type="text" id="review"/></td</tr>
-					<tr><td> <input type="button" value="Add Review" onclick="ajaxreview()"/> </td></tr>
+					<tr><td> <input type="submit" value="Add Review"/> </td></tr>
 					</table><br /><br />
 				</form>
 
-				<form class="ajaxtable">
+				<form class="ajaxtable" action="rest_client.php" method="post">
 					<table>
 					<tr><td> Accommodation ID: </td> <td><input type="text" id="accidbook"/></td></tr>
 					<tr><td> Start Date: </td> <td><input type="text" id="startdate"/></td></tr>
 					<tr><td> End Date: </td> <td><input type="text" id="enddate"/></td></tr>
 					<tr><td> Room: </td> <td><input type="text" id="room"/></td></tr>
-					<tr><td> <input type="button" value="Add Booking" onclick="ajaxbook()"/> </td></tr>
+					<tr><td> <input type="submit" value="Add Booking"/> </td></tr>
 					</table>
 				</form>
 			</div>
@@ -352,7 +180,6 @@
 					<button onclick="fontSize('d')">Decrease</button>
 				</div>
 			</div>
-
 			
 		</div>
 	</div>
