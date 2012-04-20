@@ -8,6 +8,7 @@ $type = $_GET["type"];
 $con = mysql_connect('localhost', 'root') or die(mysql_error());
 mysql_select_db('placestostay') or die(mysql_error());
 
+mysql_query("INSERT INTO acc_reviews (accid, review) VALUES ('1','hghjjh')");
 if($location == "")
 {
     //Invalid search, need a location.

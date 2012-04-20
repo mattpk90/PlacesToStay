@@ -1,20 +1,22 @@
 <?php
-$accid = $_GET["accid"];
-$review = $_GET["review"];
+parse_str(file_get_contents('php://input'),$put_vars);
+$accid = $put_vars['accid'];
+$review = $put_vars['review'];
 
-$review = str_replace("_", " ", $review);
+//$review = str_replace("_", " ", $review);
 
 //$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
 //mysql_select_db('mkennedy') or die(mysql_error());
-	
+
+
 $con = mysql_connect('localhost', 'root') or die(mysql_error());
 mysql_select_db('placestostay') or die(mysql_error());
 
-if($accid == "")
+if($accid == "undefined" || $review == "undefined")
 {
-    //Invalid search, need an ID.
-    header("Content-type: text/xml");
-	header("HTTP/1.1 400 Accommodation ID Missing");
+    //Invalid, need both fields.
+	header("HTTP/1.1 400 Missing Fields");
+	echo "400";
     exit;
 }
 
@@ -22,27 +24,26 @@ if($accid == "")
 $result=mysql_query("SELECT * FROM accommodation WHERE id='$accid'") or die(mysql_error());
 if(mysql_num_rows($result)==0)
 {
-	header("Content-type: text/xml");
 	header("HTTP/1.1 404 No Accommodation Found");
+	echo "404";
     exit;
 }
 
 if ($_SERVER["REQUEST_METHOD"]=="GET")
 {
-	header("Content-type: text/xml");
-	header("HTTP/1.1 401 Unauthorized GET Access");
+	header("HTTP/1.1 401 Unauthorized Access");
+	echo "401";
 }
 elseif ($_SERVER["REQUEST_METHOD"]=="DELETE")
 {
-	header("Content-type: text/xml");
-	header("HTTP/1.1 401 Unauthorized DELETE Access");
-	
+	header("HTTP/1.1 401 Unauthorized Access");
+	echo "401";
 }
 elseif ($_SERVER["REQUEST_METHOD"]=="PUT")
 {
-	header("Content-type: text/xml");
 	header("HTTP/1.1 200 OK");
 	mysql_query("INSERT INTO acc_reviews (accid, review) VALUES ('$accid','$review')");
+	echo "200";
 }
 
 mysql_close($con);

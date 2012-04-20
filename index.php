@@ -14,7 +14,7 @@
 		<div id="navigation">
 			<ul>
 				<li><a href="index.php">Home</a></li>
-				<li><a href="ajaxfront.php">Accommodation</a></li>
+				<li><a href="ajaxfront.html">Accommodation</a></li>
 				<li><a href="VisitColoradoUSA/index.php">VisitColoradoUSA</a></li>
 				<li><a href="wurfl.php">WURFL</a></li>
 				<li><a href="map.html">Map</a></li>

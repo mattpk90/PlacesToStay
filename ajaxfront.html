@@ -44,13 +44,43 @@
 		var l = $("#location").val();
 		var t = $("#type").val();
 	
-		var request = $.ajax({
+		var searchrequest = $.ajax({
                 url: 'searchscript.php',
                 type: 'GET',
                 dataType: 'json',
                 data: {location: l, type: t},
                 success: searchReceived,
                 error: searchError
+            });
+	}
+
+	function ajaxreview()
+	{
+		var id = $("#accidreview").val();
+		var r = $("#review").val();
+	
+		var reviewrequest = $.ajax({
+                url: 'addreview.php',
+                type: 'PUT',
+                data: {accid: id, review: r},
+                success: reviewReceived,
+                error: reviewError
+            });
+	}
+
+	function ajaxbook()
+	{
+		var bookid = $("#accidbook").val();
+		var sd = $("#startdate").val();
+		var ed = $("#enddate").val();
+		var r = $("#room").val();
+	
+		var reviewrequest = $.ajax({
+                url: 'bookroom.php',
+                type: 'PUT',
+                data: {accidbook: bookid, startdate: sd, enddate: ed, room: r},
+                success: bookReceived,
+                error: bookError
             });
 	}
 
@@ -70,6 +100,7 @@
 	function searchReceived(response)
 	{
 		$("#searchaccomresponse").html("");
+		//add headings to table: id name type etc
 		$("#searchaccomresponse").append("<table>");
 		for(var i=0; i<response.length; i++){
 			$("#searchaccomresponse").append("<tr><td>"+response[i].name+"</td>"+
@@ -81,6 +112,48 @@
 				"</tr>");
 		}
 		$("#searchaccomresponse").append("</table>");
+	}
+
+	function reviewError(jqXHR, textStatus, errorThrown)
+	{	
+		if(errorThrown == "Missing Fields"){
+			$("#searchaccomresponse").html("Please enter an accommodation ID.");
+		}
+		else if(errorThrown == "No Accommodation Found"){
+			$("#searchaccomresponse").html("No accommodation found in that location.");
+		}
+		else if(errorThrown == "Unauthorized Access"){
+			$("#searchaccomresponse").html("Unauthorised access.");
+		}
+	}
+
+	function reviewReceived(response)
+	{
+		$("#searchaccomresponse").html("Review Added.");
+		$("#book").val("");
+		$("#review").val("");
+	}
+
+	function bookError(jqXHR, textStatus, errorThrown)
+	{	
+		if(errorThrown == "Missing Fields"){
+			$("#searchaccomresponse").html("Please enter an accommodation ID.");
+		}
+		else if(errorThrown == "No Accommodation Found"){
+			$("#searchaccomresponse").html("No accommodation found with that ID.");
+		}
+		else if(errorThrown == "Unauthorized Access"){
+			$("#searchaccomresponse").html("Unauthorised access.");
+		}
+	}
+
+	function bookReceived(response)
+	{
+		$("#searchaccomresponse").html("Booking Added.");
+		$("#accidbook").val("");
+		$("#startdate").val("");
+		$("#enddate").val("");
+		$("#room").val("");
 	}
 	</script>
 </head>
@@ -97,31 +170,26 @@
 
 		<div id="stage">
 			<div id="left">
-				<form>
-					<table>
-					<tr><td> Location: </td> <td><input type="text" id="location" name="location"/></td></tr>
-					<tr><td> Type: </td> <td><input type="text" id="type" name="type"/></td</tr>
-					<tr><td> <input type="button" value="Search" onclick="ajaxsearch()"/> </td></tr>
-					</table>
-				</form><br /><br />
+				<table>
+				<tr><td> Location: </td> <td><input type="text" id="location" name="location"/></td></tr>
+				<tr><td> Type: </td> <td><input type="text" id="type" name="type"/></td</tr>
+				<tr><td> <button onclick="ajaxsearch()">Search</button> </td></tr>
+				</table><br /><br />
 
-				<form class="ajaxtable" action="reviewrest.php" method="get">
-					<table>
-					<tr><td> Accommodation ID: </td> <td><input type="text" name="accidreview"/></td></tr>
-					<tr><td> Review: </td> <td><input type="text" name="review"/></td</tr>
-					<tr><td> <input type="submit" value="Add Review"/> </td></tr>
-					</table><br /><br />
-				</form>
 
-				<form class="ajaxtable" action="bookrest.php" method="post">
-					<table>
-					<tr><td> Accommodation ID: </td> <td><input type="text" name="accidbook"/></td></tr>
-					<tr><td> Start Date: </td> <td><input type="text" name="startdate" id="startdate"/></td></tr>
-					<tr><td> End Date: </td> <td><input type="text" name="enddate" id="enddate"/></td></tr>
-					<tr><td> Room: </td> <td><input type="text" name="room"/></td></tr>
-					<tr><td> <input type="submit" value="Add Booking"/> </td></tr>
-					</table>
-				</form>
+				<table>
+				<tr><td> Accommodation ID: </td> <td><input type="text" id="accidreview" name="accidreview"/></td></tr>
+				<tr><td> Review: </td> <td><input type="text" id="review" name="review"/></td</tr>
+				<tr><td> <button onclick="ajaxreview()">Add Review</button> </td></tr>
+				</table><br /><br />
+
+				<table>
+				<tr><td> Accommodation ID: </td> <td><input type="text" id="accidbook" name="accidbook"/></td></tr>
+				<tr><td> Start Date: </td> <td><input type="text" name="startdate" id="startdate"/></td></tr>
+				<tr><td> End Date: </td> <td><input type="text" name="enddate" id="enddate"/></td></tr>
+				<tr><td> Room: </td> <td><input type="text" id="room" name="room"/></td></tr>
+				<tr><td> <button onclick="ajaxbook()">Make Booking</button> </td></tr>
+				</table>
 			</div>
 
 
