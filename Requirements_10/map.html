@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Map</title>
+	<link rel="stylesheet" type="text/css" href="../main.css"/>
+	<link rel="stylesheet" type="text/css" href="../lib/leaflet.css"/>
+	<link rel="stylesheet" type="text/css" href="../lib/jquery-ui-css.css" />
+	<script type="text/javascript" src="../lib/leaflet.js"></script>
+	<script type='text/javascript' src='../lib/jquery.js'></script>
+	<script type='text/javascript' src='../lib/jquery-ui.js'></script>
+	<script type="text/javascript">
+	var map;
+	function init()
+	{
+		map = new L.Map ("map1");
+	    var attrib="Map data copyright OpenStreetMap contributors, CC-by-SA";
+
+	    var layerOSM = new L.TileLayer
+	        ("http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+	            { attribution: attrib } );            
+	    map.addLayer(layerOSM);
+
+	    var populate = $.ajax({
+                url: 'fetchplaces.php',
+                data: {id: ""},
+                dataType: 'json'
+            });
+
+	    populate.done(function(response) {
+			for(var i=0; i<response.length; i++){
+				var a, b = 0;
+				a = new L.LatLng(response[i].latitude,response[i].longitude);
+			    b = new L.Marker(a);
+
+			    map.addLayer(b);
+	 		 	b.bindPopup(response[i].name);
+	 		 	a++;
+	 		 	b++;
+			}
+		});
+
+		populate.fail(function(jqXHR, textStatus) {
+		  alert( "Error retrieving places: " + textStatus );
+		});
+
+		if(document.location.search == ""){
+			var pos = new L.LatLng(50.9079,-1.4015);
+	   		map.setView(pos, 14);
+		}else{
+			var str = document.location.search;
+			str = str.slice(4);
+
+			var getPlace = $.ajax({
+                url: 'fetchplaces.php',
+                data: {id: str},
+                dataType: 'json'
+            });
+
+            getPlace.done(function(response) {
+		 		var pos = new L.LatLng(response[0].latitude,response[0].longitude);
+	   			map.setView(pos, 16);			
+			});
+
+			getPlace.fail(function(jqXHR, textStatus) {
+				alert( "Error retrieving location: " + textStatus );
+				var pos = new L.LatLng(50.9079,-1.4015);
+	   			map.setView(pos, 14);
+			});
+		}
+
+	    map.on("click", onMapClick);
+	}
+
+	function onMapClick(e)
+	{
+		var placename = prompt('Place Name:');
+		if(placename == null){}else{
+			var placetype = prompt('Type:');
+		}
+		if(placetype == null){}else{
+			var placerooms = prompt('Number of rooms:');
+		}
+		if(placename == null || placetype == null || placerooms == null){}else{
+			var placerequest = $.ajax({
+                url: 'addplace.php',
+                type: 'GET',
+                data: {lat: e.latlng.lat, lng: e.latlng.lng, name: placename, type: placetype, rooms: placerooms}
+	        });
+			
+			var pos = new L.LatLng(e.latlng.lat,e.latlng.lng);
+			var marker = new L.Marker(pos);
+			marker.bindPopup(placename);
+			map.addLayer(marker);
+		}
+	}
+	</script>
+</head>
+
+<body onload="init()">
+
+	<div id="container">
+		<div id="logo"><img src="../images/logo.png" alt="logo"/></div>
+
+		<div id="navigation">
+			<ul>
+				<li><a href="../index.php">Home</a></li>
+			</ul>
+		</div>
+		<div id="map1" style="width:800px; height:400px"> </div>
+		<div id="mapPanel"></div>
+	</div>
+</body>
+</html>

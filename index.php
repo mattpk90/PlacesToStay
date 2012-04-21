@@ -7,31 +7,27 @@
 </head>
 
 <body>
-
 	<div id="container">
 		<div id="logo"><img src="images/logo.png" alt="logo"/></div>
 
 		<div id="navigation">
 			<ul>
 				<li><a href="index.php">Home</a></li>
-				<li><a href="ajaxfront.html">Accommodation</a></li>
-				<li><a href="VisitColoradoUSA/index.php">VisitColoradoUSA</a></li>
-				<li><a href="wurfl.php">WURFL</a></li>
-				<li><a href="map.html">Map</a></li>
+				<li><a href="Requirements_4_5_6/ajaxfront.html" title="AJAX">Requirements 4 to 6</a></li>
+				<li><a href="Requirements_7_8/VisitColoradoUSA/ajaxfront.php" title="VisitColoradoUSA">Requirement 7 and 8</a></li>
+				<li><a href="Requirements_10/map.html" title="Web Mapping">Requirement 9</a></li>
+				<li><a href="Requirements_9/wurfl.php" title="WURFL">Requirement 10</a></li>
 			</ul>
 		</div>
 
 		<div id="stage">
-			<br /><br /><br />
-			<li><a href="searchscript.php?location=southampton&type=hotel">Search Accommodation XML</a></li>
-			<li><a href="addreview.php?accid=1&review=testreview">Add Review XML</a></li>
-			<li><a href="bookroom.php?accid=1&startdate=2012/02/01&enddate=2012/02/14&room=12">Book A Room XML</a></li>
+			<br /><br />
+			Requirements 1, 2 and 3. Web services to search, review and book. XML based for now.
+			<br />
+			<li><a href="Requirements_1_2_3/searchxml.php?location=southampton&type=hotel">Search Accommodation XML Web Service</a></li>
+			<li><a href="Requirements_1_2_3/addreviewxml.php?accid=1&review=testreview">Add Review XML</a></li>
+			<li><a href="Requirements_1_2_3/bookroomxml.php?accid=1&startdate=2012/02/01&enddate=2012/02/14&room=12">Book A Room XML</a></li>
 		</div>
-
-
-
 	</div>
-	
-
 </body>
 </html>
