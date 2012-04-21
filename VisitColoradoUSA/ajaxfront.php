@@ -40,7 +40,7 @@
 	
 		var reviewrequest = $.ajax({
                 url: 'bookrest.php',
-                type: 'PUT',
+                type: 'GET',
                 data: {accidbook: bookid, startdate: sd, enddate: ed, room: r},
                 success: bookReceived,
                 error: bookError
@@ -50,23 +50,23 @@
 	function searchError(jqXHR, textStatus, errorThrown)
 	{
 		if(errorThrown == "Missing Fields"){
-			$("#searchaccomresponse").html("Please enter a location.");
+			$("#response").html("Please enter a location.");
 		}
 		else if(errorThrown == "No Accommodation Found"){
-			$("#searchaccomresponse").html("No accommodation found in that location.");
+			$("#response").html("No accommodation found in that location.");
 		}
 		else if(errorThrown == "Unauthorized Access"){
-			$("#searchaccomresponse").html("Unauthorised access.");
+			$("#response").html("Unauthorised access.");
 		}
 	}
 
 	function searchReceived(response)
 	{
-		$("#searchaccomresponse").html("");
+		$("#response").html("");
 		//add headings to table: id name type etc
-		$("#searchaccomresponse").append("<table>");
+		$("#response").append("<table>");
 		for(var i=0; i<response.length; i++){
-			$("#searchaccomresponse").append("<tr><td>"+response[i].name+"</td>"+
+			$("#response").append("<tr><td>"+response[i].name+"</td>"+
 				"<td>"+response[i].type+"</td>"+
 				"<td>"+response[i].location+"</td>"+
 				"<td>"+response[i].latitude+"</td>"+
@@ -74,29 +74,25 @@
 				"<td>"+response[i].availability+"</td>"+
 				"</tr>");
 		}
-		$("#searchaccomresponse").append("</table>");
+		$("#response").append("</table>");
 	}
 
 	function bookError(jqXHR, textStatus, errorThrown)
 	{	
 		if(errorThrown == "Missing Fields"){
-			$("#searchaccomresponse").html("Please enter an accommodation ID.");
+			$("#response").html("Please enter an accommodation ID.");
 		}
 		else if(errorThrown == "No Accommodation Found"){
-			$("#searchaccomresponse").html("No accommodation found with that ID.");
+			$("#response").html("No accommodation found with that ID.");
 		}
 		else if(errorThrown == "Unauthorized Access"){
-			$("#searchaccomresponse").html("Unauthorised access.");
+			$("#response").html("Unauthorised access.");
 		}
 	}
 
 	function bookReceived(response)
 	{
-		$("#searchaccomresponse").html("Booking Added.");
-		$("#accidbook").val("");
-		$("#startdate").val("");
-		$("#enddate").val("");
-		$("#room").val("");
+		$("#response").html("Booking Added.");
 	}
 	</script>
 </head>
@@ -121,7 +117,7 @@
 				<br /><br />
 
 				<table>
-				<tr><td> Accommodation ID: </td> <td><input type="text" name="accidbook"/></td></tr>
+				<tr><td> Accommodation ID: </td> <td><input type="text" name="accidbook" id="accidbook"/></td></tr>
 				<tr><td> Start Date: </td> <td><input type="text" name="startdate" id="startdate"/></td></tr>
 				<tr><td> End Date: </td> <td><input type="text" name="enddate" id="enddate"/></td></tr>
 				<tr><td> Room: </td> <td><input type="text" id="room" name="room"/></td></tr>

@@ -6,8 +6,11 @@
 	$enddate = $_GET["enddate"];
 	$room = $_GET["room"];
 
-	$bookResult = call_web_service("http://localhost/assignment/bookroom.php?accid=$id&startdate=$startdate&enddate=$enddate&room=$room", "PUT");
-	//$reviewResult = call_web_service("http://edward.solent.ac.uk/students/mkennedy/assignment/bookroom.php?accid=$id&startdate=$startsate&enddate=$enddate&room=$room", "PUT"); 
+	$vars = "accidbook=".$id."&startdate=".$startdate."&enddate=".$enddate."&room=".$room;
+	//echo $vars;
+
+	$bookResult = call_web_service("localhost/assignment/bookroom.php", "PUT", $vars);
+	//$reviewResult = call_web_service("http://edward.solent.ac.uk/students/mkennedy/assignment/bookroom.php", "PUT", $vars); 
 
 	if($bookResult["code"] == 200){
 		header("HTTP/1.1 200 OK");

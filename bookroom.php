@@ -11,7 +11,6 @@ $room = $put_vars['room'];
 $con = mysql_connect('localhost', 'root') or die(mysql_error());
 mysql_select_db('placestostay') or die(mysql_error());
 
-
 if($accid == "undefined" || $startdate == "undefined" || $enddate == "undefined" || $room == "undefined")
 {
     //Invalid search, need an ID.
@@ -20,7 +19,7 @@ if($accid == "undefined" || $startdate == "undefined" || $enddate == "undefined"
 }
 
 //Check accommodation exists.
-$result=mysql_query("SELECT * FROM accommodation WHERE id='$accid'") or die(mysql_error());
+$result=mysql_query("SELECT * FROM accommodation WHERE ID='$accid'") or die(mysql_error());
 if(mysql_num_rows($result)==0)
 {
 	header("HTTP/1.1 404 No Accommodation Found");
