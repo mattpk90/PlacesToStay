@@ -105,9 +105,9 @@
 		$("#mainresponse").append("<tr><td>ID</td><td>Name</td><td>Type</td><td>Location</td><td>Latitude</td><td>Longitude</td><td>Availability</td><td></td></tr>");
 		for(var i=0; i<response.length; i++){
 			$("#mainresponse").append("<tr><td>"+response[i].ID+"</td>"+
-				"<td>"+response[i].name+"</td>"+
-				"<td>"+response[i].type+"</td>"+
-				"<td>"+response[i].location+"</td>"+
+				"<td>"+unescape(response[i].name)+"</td>"+
+				"<td>"+unescape(response[i].type)+"</td>"+
+				"<td>"+unescape(response[i].location)+"</td>"+
 				"<td>"+response[i].latitude+"</td>"+
 				"<td>"+response[i].longitude+"</td>"+
 				"<td>"+response[i].availability+"</td>"+

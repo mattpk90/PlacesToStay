@@ -34,7 +34,7 @@
 			    b = new L.Marker(a);
 
 			    map.addLayer(b);
-	 		 	b.bindPopup(response[i].name);
+	 		 	b.bindPopup(unescape(response[i].name));
 	 		 	a++;
 	 		 	b++;
 			}
@@ -57,7 +57,7 @@
                 dataType: 'json'
             });
 
-            getPlace.done(function(response) {
+            getPlace.done(function(response){
 		 		var pos = new L.LatLng(response[0].latitude,response[0].longitude);
 	   			map.setView(pos, 16);			
 			});
@@ -82,6 +82,8 @@
 			var placerooms = prompt('Number of rooms:');
 		}
 		if(placename == null || placetype == null || placerooms == null){}else{
+			placename = escape(placename);
+			placetype = escape(placetype);
 			var placerequest = $.ajax({
                 url: 'addplace.php',
                 type: 'GET',

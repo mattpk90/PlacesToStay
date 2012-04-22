@@ -14,10 +14,11 @@
 			<ul>
 				<li><a href="index.php">Home</a></li>
 				<li><a href="Requirements_4_5_6/ajaxfront.html" title="AJAX">Requirements 4 to 6</a></li>
-				<li><a href="Requirements_7_8/VisitColoradoUSA/ajaxfront.php" title="VisitColoradoUSA">Requirement 7 and 8</a></li>
-				<li><a href="Requirements_10/map.html" title="Web Mapping">Requirement 9</a></li>
-				<li><a href="Requirements_9/wurfl.php" title="WURFL">Requirement 10</a></li>
-			</ul>
+				<li><a href="Requirements_7_8/VisitColoradoUSA/ajaxfront.php" title="VisitColoradoUSA">Requirements 7 and 8</a></li>
+				<li><a href="Requirements_9/wurfl.php" title="WURFL">Requirement 9</a></li>
+				<li><a href="Requirements_10/map.html" title="Web Mapping">Requirement 10</a></li>
+				<li><a href="Requirements_11/geolocation.php" title="Geolocation">Requirement 11</a></li>
+				</ul>
 		</div>
 
 		<div id="stage">
