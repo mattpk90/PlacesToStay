@@ -7,15 +7,21 @@ $room = $put_vars['room'];
 
 //$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
 //mysql_select_db('mkennedy') or die(mysql_error());
-	
+
 $con = mysql_connect('localhost', 'root') or die(mysql_error());
 mysql_select_db('placestostay') or die(mysql_error());
 
+if ($_SERVER["REQUEST_METHOD"]=="DELETE")
+{
+	header("HTTP/1.1 200 OK");
+	mysql_query("DELETE FROM bookings WHERE id='$accid'");
+	exit;
+}
+
 if($accid == "" || $startdate == "" || $enddate == "" || $room == "")
 {
-    //Invalid, need all fields.
 	header("HTTP/1.1 400 Missing Fields");
-    exit;
+	exit;
 }
 
 //Check accommodation exists.
@@ -33,7 +39,6 @@ if ($_SERVER["REQUEST_METHOD"]=="GET")
 elseif ($_SERVER["REQUEST_METHOD"]=="DELETE")
 {
 	header("HTTP/1.1 401 Unauthorized Access");
-	
 }
 elseif ($_SERVER["REQUEST_METHOD"]=="PUT")
 {

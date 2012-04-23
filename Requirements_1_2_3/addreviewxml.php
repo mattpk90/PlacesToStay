@@ -2,16 +2,15 @@
 $accid = $_GET["accid"];
 $review = $_GET["review"];
 
-//$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
-//mysql_select_db('mkennedy') or die(mysql_error());
-	
-$con = mysql_connect('localhost', 'root') or die(mysql_error());
-mysql_select_db('placestostay') or die(mysql_error());
+$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
+mysql_select_db('mkennedy') or die(mysql_error());
 
+//$con = mysql_connect('localhost', 'root') or die(mysql_error());
+//mysql_select_db('placestostay') or die(mysql_error());
 
 if($accid == "" || $review == "")
 {
-    //Invalid search, need a location.
+    //Invalid search, need all data.
     header("Content-type: text/html");
 	header("HTTP/1.1 400 Missing Data");
 	echo "HTTP/1.1 400 Missing Data";
@@ -30,7 +29,6 @@ if(mysql_num_rows($result)==0)
 
 if ($_SERVER["REQUEST_METHOD"]=="GET")
 {
-	header("HTTP/1.1 200 OK");
 	mysql_query("INSERT INTO acc_reviews (accid, review) VALUES ('$accid','$review')");
 
 	header("Content-type: text/xml");

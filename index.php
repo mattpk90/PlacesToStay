@@ -26,8 +26,8 @@
 			Requirements 1, 2 and 3. Web services to search, review and book. XML based for now.
 			<br />
 			<li><a href="Requirements_1_2_3/searchxml.php?location=southampton&type=hotel">Search Accommodation XML Web Service</a></li>
-			<li><a href="Requirements_1_2_3/addreviewxml.php?accid=1&review=testreview">Add Review XML</a></li>
-			<li><a href="Requirements_1_2_3/bookroomxml.php?accid=1&startdate=2012/02/01&enddate=2012/02/14&room=12">Book A Room XML</a></li>
+			<li><a href="Requirements_1_2_3/addreviewxml.php?accid=1&review=testreview">Add Review XML Web Service</a></li>
+			<li><a href="Requirements_1_2_3/bookroomxml.php?accid=1&startdate=2012/02/01&enddate=2012/02/14&room=12">Book A Room XML Web Service</a></li>
 		</div>
 	</div>
 </body>

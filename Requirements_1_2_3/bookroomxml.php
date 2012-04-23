@@ -6,14 +6,13 @@ $room = $_GET["room"];
 
 //$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
 //mysql_select_db('mkennedy') or die(mysql_error());
-	
+
 $con = mysql_connect('localhost', 'root') or die(mysql_error());
 mysql_select_db('placestostay') or die(mysql_error());
 
-
 if($accid == "" || $startdate == "" || $enddate == "" || $room == "")
 {
-    //Invalid search, need a location.
+    //Invalid search, needs all data.
     header("Content-type: text/html");
 	header("HTTP/1.1 400 Missing Data");
 	echo "HTTP/1.1 400 Missing Data";
@@ -32,9 +31,9 @@ if(mysql_num_rows($result)==0)
 
 if ($_SERVER["REQUEST_METHOD"]=="GET")
 {
-	header("HTTP/1.1 200 OK");
 	mysql_query("INSERT INTO bookings (accid, startdate, enddate, room) 
 						VALUES ('$accid','$startdate', '$enddate', '$room')");
+	
 	header("Content-type: text/xml");
 	header("HTTP/1.1 200 OK");
 	echo '<?xml version="1.0" encoding="UTF-8" ?>';

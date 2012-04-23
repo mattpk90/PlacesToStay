@@ -34,7 +34,7 @@
                 b = new L.Marker(a);
 
                 map.addLayer(b);
-                b.bindPopup(response[i].name);
+                b.bindPopup(unescape(response[i].name));
                 a++;
                 b++;
             }
@@ -55,17 +55,52 @@
             map.setView(pos, 14);
         }
 
-         function processPosition(pos)
+        function processPosition(pos)
         {
             var pos = new L.LatLng(pos.coords.latitude,pos.coords.longitude);
             map.setView(pos, 14);
+			$("#message").html("Map updated to your location.");
         }
 
         function handleError(err)
         {
-            alert('An error occurred: ' + err.code);
+			$("#message").html("Your location is not retrievable, default location set.");
+            var pos = new L.LatLng(50.9079,-1.4015);
+            map.setView(pos, 14);
+			alert("Your browser has blocked geolocation at this time.");
         }
-        //map.on("click", onMapClick);
+    }
+
+    function addLocation()
+    {
+        navigator.geolocation.getCurrentPosition(processPos, handleErr);
+        function processPos(pos){
+            var lat = pos.coords.latitude;
+            var lng = pos.coords.longitude;
+
+            var placename = prompt('Place Name:');
+            if(placename == null){}else{
+                var placetype = prompt('Type:');
+            }
+            if(placetype == null){}else{
+                var placerooms = prompt('Number of rooms:');
+            }
+            placename = escape(placename);
+            placetype = escape(placetype);
+
+            var placerequest = $.ajax({
+                url: '../Requirements_10/addplace.php',
+                type: 'GET',
+                data: {lat: lat, lng: lng, name: placename, type: placetype, rooms: placerooms}
+            });
+
+            var pos = new L.LatLng(lat,lng);
+            var marker = new L.Marker(pos);
+            marker.bindPopup(placename);
+            map.addLayer(marker);
+        }
+
+        function handleErr(err){ alert("Error adding location."); }
     }
     </script>
 </head>
@@ -80,6 +115,8 @@
                 <li><a href="../index.php">Home</a></li>
             </ul>
         </div>
+		<div id="message"></div><br />
+        <button onclick="addLocation()">Add Location</button>
         <div id="map1" style="width:800px; height:400px"> </div>
         <div id="mapPanel"></div>
     </div>

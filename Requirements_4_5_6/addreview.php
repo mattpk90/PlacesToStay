@@ -3,11 +3,8 @@ parse_str(file_get_contents('php://input'),$put_vars);
 $accid = $put_vars['accid'];
 $review = $put_vars['review'];
 
-//$review = str_replace("_", " ", $review);
-
 //$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
 //mysql_select_db('mkennedy') or die(mysql_error());
-
 
 $con = mysql_connect('localhost', 'root') or die(mysql_error());
 mysql_select_db('placestostay') or die(mysql_error());

@@ -29,11 +29,15 @@
 			var fontMinus = currentFontSizeNum*0.8;
 			$("html").css('font-size', fontMinus);
 		}
+		else if(s == "r")
+		{
+			$("html").css('font-size', 16);
+		}
 	}
 
 	function resultsCustomise(){
-		var bgCol = $("#searchbg").val();
-		var textCol = $("#searchtext").val();
+		var bgCol = $("#bg").val();
+		var textCol = $("#text").val();
 		if(bgCol == '' && textCol != ''){ $("#mainresponse").css({color: textCol}); }
 		else if(textCol == '' && bgCol != ''){ $("#mainresponse").css({backgroundColor: bgCol}); }
 		else if(bgCol != '' && textCol != ''){ $("#mainresponse").css({backgroundColor: bgCol, color: textCol}); }
@@ -58,6 +62,7 @@
 	{
 		var id = $("#accidreview").val();
 		var r = $("#review").val();
+		r = escape(r);
 	
 		var reviewrequest = $.ajax({
                 url: 'addreview.php',
@@ -112,6 +117,7 @@
 				"<td>"+response[i].longitude+"</td>"+
 				"<td>"+response[i].availability+"</td>"+
 				"<td><button onclick='goToPlace("+response[i].ID+")'>View Map</button></td>"+
+				"<td><button onclick='deletePlace("+response[i].ID+")'>Remove</button></td>"+
 				"</tr>");
 		}
 		$("#mainresponse").append("</table>");
@@ -140,19 +146,19 @@
 	function bookError(jqXHR, textStatus, errorThrown)
 	{	
 		if(errorThrown == "Missing Fields"){
-			$("#mainresponse").html("All fields must be completed.");
+			$("#bookingresponse").html("All fields must be completed.");
 		}
 		else if(errorThrown == "No Accommodation Found"){
-			$("#mainresponse").html("No accommodation found with that ID.");
+			$("#bookingresponse").html("No accommodation found with that ID.");
 		}
 		else if(errorThrown == "Unauthorized Access"){
-			$("#mainresponse").html("Unauthorised access.");
+			$("#bookingresponse").html("Unauthorised access.");
 		}
 	}
 
 	function bookReceived(response)
 	{
-		$("#mainresponse").html("Booking Added.");
+		$("#bookingresponse").html("Booking Added.");
 		$("#accidbook").val("");
 		$("#startdate").val("");
 		$("#enddate").val("");
@@ -161,6 +167,71 @@
 
 	function goToPlace(id){
 		window.location.href='../Requirements_10/map.html?id='+id;
+	}
+	
+	function searchBookings(){
+		var search = $.ajax({
+                url: 'searchbook.php',
+                type: 'GET',
+                dataType: 'json',
+                success: bookSearchReceived,
+                error: bookSearchError
+        });
+		
+		function bookSearchError(jqXHR, textStatus, errorThrown)
+		{
+			if(errorThrown == "Unauthorized Access"){
+				$("#mainresponse").html("Unauthorised access.");
+			}
+			else{
+				$("#mainresponse").html("Search error.");
+			}
+		}
+
+		function bookSearchReceived(response)
+		{
+			$("#bookingresponse").html("");
+			//add headings to table: id name type etc
+			$("#bookingresponse").append("<table>");
+			$("#bookingresponse").append("<tr><td>ID</td><td>Acc ID</td><td>Start Date</td><td>End Date</td><td>Room</td></tr>");
+			for(var i=0; i<response.length; i++){
+				$("#bookingresponse").append("<tr><td>"+response[i].id+"</td>"+
+					"<td>"+response[i].accid+"</td>"+
+					"<td>"+response[i].startdate+"</td>"+
+					"<td>"+response[i].enddate+"</td>"+
+					"<td>"+response[i].room+"</td>"+
+					"<td><button onclick='deleteBooking("+response[i].id+")'>Remove</button></td>"+
+					"</tr>");
+			}
+			$("#bookingresponse").append("</table>");
+		}
+	}
+	
+	function deleteBooking(id){
+		var deleteBook = $.ajax({
+                url: 'bookroom.php',
+                type: 'DELETE',
+				data: {accidbook: id, startdate: "", enddate: "", room: ""},
+                dataType: 'json',
+                success: bookDeleteReceived,
+                error: bookDeleteError
+        });
+		
+		function bookDeleteError(jqXHR, textStatus, errorThrown)
+		{
+			if(errorThrown == "Unauthorized Access"){
+				$("#bookingresponse").html("Unauthorised access.");
+			}
+			else{
+				$("#bookingresponse").html("Error, cannot delete.");
+				alert(errorThrown);
+			}
+		}
+
+		function bookDeleteReceived(response)
+		{
+			$("#bookingresponse").html("Booking removed.");
+		}
 	}
 	</script>
 </head>
@@ -196,26 +267,29 @@
 				<tr><td> End Date: </td> <td><input type="text" name="enddate" id="enddate"/></td></tr>
 				<tr><td> Room: </td> <td><input type="text" id="room" name="room"/></td></tr>
 				<tr><td> <button onclick="ajaxbook()">Make Booking</button> </td></tr>
+				<tr><td> <button onclick="searchBookings()">Search Bookings</button> </td></tr>
 				</table>
 			</div>
 
 
 			<div id="middle">
-				<div id="mainresponse"></div>
+				<div id="mainresponse"></div><br /><br /><br />
+				<div id="bookingresponse"></div>
 			</div>
 
 			<div id="right">
 				<div id="buttonDiv">
 					Requirement 6<br />
 					Background:<br />
-					<input id="searchbg" size="10"/><br />
+					<input id="bg" size="10"/><br />
 					Text:<br />
-					<input id="searchtext" size="10"/><br />
+					<input id="text" size="10"/><br />
 					<button onclick="resultsCustomise()">Change</button><br />
 
 					Font Size:<br />
 					<button onclick="fontSize('u')">Increase</button>
 					<button onclick="fontSize('d')">Decrease</button>
+					<button onclick="fontSize('r')">Reset</button>
 				</div>
 			</div>
 			

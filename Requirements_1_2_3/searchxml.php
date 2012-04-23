@@ -4,15 +4,16 @@ $type = $_GET["type"];
 
 //$con = mysql_connect('localhost', 'mkennedy', 'tRuBU3re') or die(mysql_error());
 //mysql_select_db('mkennedy') or die(mysql_error());
-	
+
 $con = mysql_connect('localhost', 'root') or die(mysql_error());
 mysql_select_db('placestostay') or die(mysql_error());
 
 if($location == "")
 {
     //Invalid search, need a location.
-    header("Content-type: text/xml");
+    header("Content-type: text/html");
 	header("HTTP/1.1 400 Location Missing");
+	echo "HTTP/1.1 400 Location Missing";
     exit;
 }
 
@@ -25,8 +26,9 @@ else{
 }
 if(mysql_num_rows($result)==0)
 {
-	header("Content-type: text/xml");
+	header("Content-type: text/html");
 	header("HTTP/1.1 404 No Accommodation Found");
+	echo "HTTP/1.1 404 No Accommodation Found";
     exit;
 }
 
@@ -53,14 +55,15 @@ if ($_SERVER["REQUEST_METHOD"]=="GET")
 }
 elseif ($_SERVER["REQUEST_METHOD"]=="DELETE")
 {
-	header("Content-type: text/xml");
+	header("Content-type: text/html");
 	header("HTTP/1.1 401 Unauthorized DELETE Access");
-	
+	echo "HTTP/1.1 401 Unauthorized DELETE Access";
 }
 elseif ($_SERVER["REQUEST_METHOD"]=="PUT")
 {
-	header("Content-type: text/xml");
+	header("Content-type: text/html");
 	header("HTTP/1.1 401 Unauthorized PUT Access");
+	echo "HTTP/1.1 401 Unauthorized PUT Access";
 }
 
 mysql_close($con);
